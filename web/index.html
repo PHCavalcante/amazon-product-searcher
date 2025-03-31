@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" preload href="src/style.css" />
+    <link rel="preconnect" href="https://www.amazon.com/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A simple Amazon Product Search tool created as part of a challenge to a junior full-stack role job" />
+    <title>Amazon Product Search</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Search for Amazon Products</h1>
+      <div id="search-actions">
+        <form>
+          <input type="search" id="search" placeholder="Search for a product" required />
+          <button id="search-button" type="button">Search</button>
+        </form>
+      </div>
+      <div id="amazon-products">
+        <ul class="product-list">
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
