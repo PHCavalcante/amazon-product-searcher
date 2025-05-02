@@ -1,6 +1,6 @@
 # Amazon product searcher
 
-Welcome to Amazon product searcher, a simple webpage for searching Amazon products online. This application was developed as part of a code challange in a Junior Full-stack role job.
+Welcome to Amazon product searcher, a simple webpage for searching Amazon products online. This application was developed as part of a code challenge in a Trainee Junior Full-stack developer job.
 
 ## Applications
 
@@ -16,7 +16,7 @@ Welcome to Amazon product searcher, a simple webpage for searching Amazon produc
 
 ## Project structure
 
-The project structrue is organized this way:
+The project structure is organized this way:
 
 ```
 /
@@ -36,7 +36,7 @@ The project structrue is organized this way:
 │        ├── style.css
 |
 ├── README.MD
-├── installDependences.sh
+├── installDependencies.sh
 ├── run.sh 
 
 ```
@@ -60,28 +60,33 @@ git clone https://github.com/PHCavalcante/amazon-product-searcher.git
 cd amazon-product-searcher
 ```
 
-3. **Install the dependencies using the avaliable script:**
+3. **Install the dependencies using the available script:**
 ```bash
-./installDependences.sh
+./installDependencies.sh
 ```
 or install manually
 ```bash
 cd api/ && bun install
 ```
 and for the front-end
-```bassh
-cd web/ && bun install
+```bash
+cd ..web/ && bun install
 ```
 
+> [!TIP]
+> If you're on Windows and don't use WSL or Git Bash, run the manual commands above in PowerShell inside each folder.
+
 4. **Start the development applications:**
+> [!TIP]
+>  A startup script is also available (Unix/macOS only):
 ```bash
 ./run.sh
 ```
-or run manually
+Or start both manually in separate terminals:
 ```bash
 cd api/ && bun run dev
 ```
-and for the front-end
+and for the front-end:
 ```bash
 cd web/ && bun run dev
 ```

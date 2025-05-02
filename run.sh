@@ -1,51 +1,74 @@
 #!/bin/bash
-
-# Exit on error
 set -e
 
-printf "🚀 Starting script...\n"
-sleep 1
+# Stores the PIDs of the processes
+api_pid=""
+web_pid=""
 
-# Enters in API directory
-cd api/
-printf "📡 Starting API...\n"
-sleep 1
+# Cleaning function that runs when exiting
+cleanup() {
+    echo "🧹 Cleaning up processes..."
 
-# Verifies if API is already running
-api_pid=$(pgrep -f "bun run dev")
-
-if [ -n "$api_pid" ]; then
-    echo "⚠️  API is already running with PID: $api_pid"
-else
-    bun run dev & disown
-    sleep 2
-    api_pid=$(pgrep -f "bun run dev")
-    
-    if [ -n "$api_pid" ]; then
-        echo "✅ API started successfully! PID: $api_pid"
-    else
-        echo "❌ Error: failed to start API!"
-        exit 1
+    if [ -n "$web_pid" ] && kill -0 "$web_pid" 2>/dev/null; then
+        echo "🔻 Finalizing Web (PID: $web_pid)..."
+        kill "$web_pid"
+        wait "$web_pid" 2>/dev/null
     fi
+
+    if [ -n "$api_pid" ] && kill -0 "$api_pid" 2>/dev/null; then
+        echo "🔻 Finalizing API (PID: $api_pid)..."
+        kill "$api_pid"
+        wait "$api_pid" 2>/dev/null
+    fi
+
+    echo "🚪 Exiting script..."
+}
+
+# Set traps to exit cleanly
+trap cleanup EXIT INT TERM
+
+echo "🚀 Starting script..."
+sleep 1
+
+### ===== Starts the API =====
+cd api/
+echo "📡 Starting API..."
+sleep 1
+
+bun run dev &
+api_pid=$!
+
+sleep 3
+
+if kill -0 "$api_pid" 2>/dev/null; then
+    echo "✅ API started successfully! PID: $api_pid"
+    echo "🔗 API URL: http://localhost:3000"
+else
+    echo "❌ Error: failed to start API!"
+    exit 1
 fi
 
-# Enters in Web directory
 cd ../web/
 
-printf "🌍 Starting web application...\n"
+### ===== Starts the App (Web) =====
+echo "🌍 Starting web application..."
 sleep 1
 
-# Start web application
-bun run dev & disown
-sleep 2
+bun run dev &
+web_pid=$!
 
-web_pid=$(pgrep -f "bun run dev")
+sleep 3
 
-if [ -n "$web_pid" ]; then
-    echo "✅ application started successfully! PID: $web_pid"
+if kill -0 "$web_pid" 2>/dev/null; then
+    echo "✅ Web application started successfully! PID: $web_pid"
+    echo "🔗 Web URL: http://localhost:5173"
 else
     echo "❌ Error: failed to start web application!"
     exit 1
 fi
 
 echo "🎉 Everything up and running!"
+echo "🕹️ Press Ctrl+C to exit and stop the app"
+
+# Keeps the script alive until the user interrupts it with Ctrl+C
+wait
