@@ -23,6 +23,13 @@ function fetchData(queryWord) {
     xhttp.send();
   });
 }
+document.querySelector("#search").addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    // Trigger the search button click event
+    document.querySelector("#search-button").click();
+  }
+});
 
 document.querySelector("#search-button").addEventListener("click", async () => {
   // Get the search query from the input field
@@ -35,7 +42,7 @@ document.querySelector("#search-button").addEventListener("click", async () => {
 
   try {
     const result = await fetchData(searchQuery);
-    console.log(result);
+    // console.log(result);
     let products = [];
     if (result) {
       products = result
